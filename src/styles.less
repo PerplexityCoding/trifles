@@ -1,0 +1,32 @@
+.file-selector {
+
+  display: flex;
+  flex-direction: column;
+  user-select: none;
+
+  &__right-column {
+    flex: 2;
+    padding: 0;
+    margin: 0;
+  }
+
+  &__left-column {
+    flex: 1;
+    padding: 0;
+    margin: 0;
+  }
+
+  &__header {
+    user-select: all;
+  }
+
+  &__content {
+    display: flex;
+    flex: 1;
+  }
+
+  &__item {
+    display: block;
+    cursor: pointer;
+  }
+}

@@ -1,0 +1,85 @@
+
+.file-selector {
+    height: 100%;
+    box-sizing: border-box;
+    overflow: hidden;
+    font-family: Arial;
+}
+
+.file-selector__header {
+    padding: 10px;
+    background-color: #d2d2d2;
+    font-weight: bold;
+}
+
+.file-selector__item {
+    font: normal normal normal 14px/1 FontAwesome;
+    font-size: inherit;
+    text-rendering: auto;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+
+.file-selector__item:before {
+    padding-right: 5px;
+}
+
+.file-selector__item > span {
+    font-family: Arial;
+}
+
+.file-selector__content {
+}
+
+.file-selector__left-column {
+}
+
+.file-selector__left-column li {
+    padding: 5px;
+}
+
+.file-selector__left-column li:hover {
+    background-color: #f1f3f5;
+}
+
+.file-selector__right-column {
+    padding: 5px;
+    overflow: auto;
+}
+
+.file-selector__root__is-selected {
+    background-color: #f1f3f5;
+}
+
+.file-selector__root {
+    font: normal normal normal 14px/1 FontAwesome;
+    font-size: inherit;
+    text-rendering: auto;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+
+.file-selector__root__is-drive:before {
+    content: "\f0a0";
+}
+
+.file-selector__root__is-home:before {
+    content: "\f015";
+}
+
+.file-selector__file {
+    padding: 1px;
+}
+
+.file-selector__file:hover {
+    background-color: #f1f3f5;
+}
+
+.file-selector__file__is-folder:before {
+    content: "\f07b";
+}
+
+.file-selector__file__is-file:before {
+    content: "\f016";
+}
+

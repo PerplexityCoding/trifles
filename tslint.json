@@ -1,0 +1,16 @@
+{
+  "rulesDirectory": [
+    "node_modules/codelyzer"
+  ],
+  "extends": ["tslint:latest", "tslint-react"],
+  "rules": {
+      "trailing-comma": false,
+      "object-literal-sort-keys": false,
+      "object-literal-shorthand": false,
+      "ordered-imports": false,
+      "no-empty": false,
+      "max-line-length": 140,
+      "prefer-conditional-expression": false,
+      "prefer-object-spread": false
+  }
+}

@@ -1,18 +1,18 @@
 
-.file-selector {
+.trifles {
     height: 100%;
     box-sizing: border-box;
     overflow: hidden;
     font-family: Arial;
 }
 
-.file-selector__header {
+.trifles__header {
     padding: 10px;
     background-color: #d2d2d2;
     font-weight: bold;
 }
 
-.file-selector__item {
+.trifles__item {
     font: normal normal normal 14px/1 FontAwesome;
     font-size: inherit;
     text-rendering: auto;
@@ -20,38 +20,38 @@
     -moz-osx-font-smoothing: grayscale;
 }
 
-.file-selector__item:before {
+.trifles__item:before {
     padding-right: 5px;
 }
 
-.file-selector__item > span {
+.trifles__item > span {
     font-family: Arial;
 }
 
-.file-selector__content {
+.trifles__content {
 }
 
-.file-selector__left-column {
+.trifles__left-column {
 }
 
-.file-selector__left-column li {
+.trifles__left-column li {
     padding: 5px;
 }
 
-.file-selector__left-column li:hover {
+.trifles__left-column li:hover {
     background-color: #f1f3f5;
 }
 
-.file-selector__right-column {
+.trifles__right-column {
     padding: 5px;
     overflow: auto;
 }
 
-.file-selector__root__is-selected {
+.trifles__root__is-selected {
     background-color: #f1f3f5;
 }
 
-.file-selector__root {
+.trifles__root {
     font: normal normal normal 14px/1 FontAwesome;
     font-size: inherit;
     text-rendering: auto;
@@ -59,27 +59,27 @@
     -moz-osx-font-smoothing: grayscale;
 }
 
-.file-selector__root__is-drive:before {
+.trifles__root__is-drive:before {
     content: "\f0a0";
 }
 
-.file-selector__root__is-home:before {
+.trifles__root__is-home:before {
     content: "\f015";
 }
 
-.file-selector__file {
+.trifles__file {
     padding: 1px;
 }
 
-.file-selector__file:hover {
+.trifles__file:hover {
     background-color: #f1f3f5;
 }
 
-.file-selector__file__is-folder:before {
+.trifles__file__is-folder:before {
     content: "\f07b";
 }
 
-.file-selector__file__is-file:before {
+.trifles__file__is-file:before {
     content: "\f016";
 }
 

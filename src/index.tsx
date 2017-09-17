@@ -52,17 +52,17 @@ export default class Trifles extends Component<any, any> {
 
     public render({}, { roots, files, selectedRoot, displayFilePath }: any) {
         return (
-            <div class="file-selector">
-                <div class="file-selector__header">
+            <div class="trifles">
+                <div class="trifles__header">
                     {this.renderFullPath(displayFilePath)}
                 </div>
 
-                <div class="file-selector__content">
-                    <ul class="file-selector__left-column">
+                <div class="trifles__content">
+                    <ul class="trifles__left-column">
                         {this.renderRoots(roots, selectedRoot)}
                     </ul>
 
-                    <ul class="file-selector__right-column">
+                    <ul class="trifles__right-column">
                         {this.renderFiles(files)}
                     </ul>
                 </div>
@@ -82,7 +82,7 @@ export default class Trifles extends Component<any, any> {
                 onClick={() => {this.selectRoot(root); }}
                 className={this.getRootCssClass(selectedRoot, root)}
             >
-                <span class="file-selector__root__label">
+                <span class="trifles__root__label">
                     {root.label}
                 </span>
             </li>
@@ -101,7 +101,7 @@ export default class Trifles extends Component<any, any> {
                 onClick={() => {this.selectFile(file); }}
                 className={this.getFileCssClass(file)}
             >
-                <span class="file-selector__file__label">
+                <span class="trifles__file__label">
                     {file.label}
                 </span>
             </li>
@@ -123,24 +123,24 @@ export default class Trifles extends Component<any, any> {
     }
 
     private getRootCssClass(selectedRoot: ITriflesRoot, root: ITriflesRoot) {
-        let classes = "file-selector__item file-selector__root";
+        let classes = "trifles__item trifles__root";
 
         if (root.type) {
-            classes += (" file-selector__root__is-" + root.type);
+            classes += (" trifles__root__is-" + root.type);
         }
 
         if (selectedRoot.id === root.id) {
-            classes += " file-selector__root__is-selected";
+            classes += " trifles__root__is-selected";
         }
 
         return classes;
     }
 
     private getFileCssClass(file: ITriflesFile) {
-        let classes = "file-selector__item file-selector__file";
+        let classes = "trifles__item trifles__file";
 
         if (file.type) {
-            classes += (" file-selector__file__is-" + file.type);
+            classes += (" trifles__file__is-" + file.type);
         }
 
         return classes;

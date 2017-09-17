@@ -1,6 +1,6 @@
 // rollup.config.js
 import rollupTypescript from "rollup-plugin-typescript";
-import resolve from "rollup-plugin-node-resolve";
+//import resolve from "rollup-plugin-node-resolve";
 import typescript from "typescript";
 import less from 'rollup-plugin-less';
 

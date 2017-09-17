@@ -15,8 +15,7 @@
 
         create: function() {
 
-            FileSelector.init({
-                element: document.querySelector("[data-role='myFileSelector']"),
+            Trifles.create(document.querySelector("[data-role='trifles']"), {
                 onSelectFile: function(data) {
                     selectedFile = data.file;
                 }

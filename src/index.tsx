@@ -1,34 +1,56 @@
 import "./styles.less";
 import {Component, h, render} from "preact";
 
-export default class FileSelector extends Component<any, any> {
+interface ITriflesOptions {
+    configUrl: string;
+    listFilesUrl: string;
+    onSelectRoot: (x: {root: ITriflesRoot}) => void;
+    onSelectFile: (x: {file: ITriflesFile}) => void;
+}
 
-    constructor() {
+interface ITriflesRoot {
+    id: string;
+    label: string;
+    displayPath: string;
+    type: "drive" | "location" | string;
+}
+
+interface ITriflesFile {
+    id: string;
+    label: string;
+    displayPath: string;
+    type: "file" | "folder" | string;
+}
+
+interface ITriflesConfig {
+    roots: [ITriflesRoot];
+    selectedRoot: ITriflesRoot;
+    files: [ITriflesFile];
+}
+
+export default class Trifles extends Component<any, any> {
+
+    public static create(element: Element, wOptions: ITriflesOptions | {} = {}) {
+        render((
+            <Trifles options={wOptions} />
+        ), element || document.body);
+    }
+
+    private options: ITriflesOptions;
+
+    constructor({options: options}: {options: ITriflesOptions}) {
         super();
 
-        this.options = FileSelector.options;
+        this.options = {
+            configUrl: "http://localhost:3000/config",
+            listFilesUrl: "http://localhost:3000/list_files?id=",
+            ...options
+        };
 
         this.load();
     }
 
-    private options: any;
-    private static options: any;
-
-    public static init(options: any = {}) {
-        FileSelector.options = {
-            configUrl: options.configUrl || "http://localhost:3000/config",
-            listFilesUrl: options.listFilesUrl || "http://localhost:3000/list_files?id=",
-            onSelectRoot: options.onSelectRoot,
-            onSelectFile: options.onSelectFile,
-            apiKey: "xxx123xxx"
-        };
-
-        render((
-            <FileSelector />
-        ), options.element || document.body);
-    }
-
-    public render({}, { roots, files, selectedRoot, displayFilePath }) {
+    public render({}, { roots, files, selectedRoot, displayFilePath }: any) {
         return (
             <div class="file-selector">
                 <div class="file-selector__header">
@@ -48,21 +70,17 @@ export default class FileSelector extends Component<any, any> {
         );
     }
 
-    private renderRoots(roots, selectedRoot) {
-        return roots && roots.map((root, index) => {
+    private renderRoots(roots: [ITriflesRoot], selectedRoot: ITriflesRoot) {
+        return roots && roots.map((root) => {
             return this.renderRoot(root, selectedRoot);
         });
     }
 
-    private renderRoot(root, selectedRoot) {
+    private renderRoot(root: ITriflesRoot, selectedRoot: ITriflesRoot) {
         return (
             <li
-                onClick={() => {
-                    this.selectRoot(root)
-                }}
-                className={
-                    this.getRootCssClass(selectedRoot, root)
-                }
+                onClick={() => {this.selectRoot(root); }}
+                className={this.getRootCssClass(selectedRoot, root)}
             >
                 <span class="file-selector__root__label">
                     {root.label}
@@ -71,21 +89,17 @@ export default class FileSelector extends Component<any, any> {
         );
     }
 
-    private renderFiles(files) {
+    private renderFiles(files: [ITriflesFile]) {
         return files && files.map((file, index) => {
             return this.renderFile(file);
         });
     }
 
-    private renderFile(file) {
+    private renderFile(file: ITriflesFile) {
         return (
             <li
-                onClick={() => {
-                    this.selectFile(file)
-                }}
-                className={
-                    this.getFileCssClass(file)
-                }
+                onClick={() => {this.selectFile(file); }}
+                className={this.getFileCssClass(file)}
             >
                 <span class="file-selector__file__label">
                     {file.label}
@@ -96,8 +110,8 @@ export default class FileSelector extends Component<any, any> {
 
     private load() {
         fetch(this.options.configUrl).then((response) => {
-            response.json().then((config) => {
-                let selectedRoot = config.selectedRoot;
+            response.json().then((config: ITriflesConfig) => {
+                const selectedRoot = config.selectedRoot;
                 this.setState({
                     roots: config.roots,
                     files: config.files,
@@ -108,21 +122,21 @@ export default class FileSelector extends Component<any, any> {
         });
     }
 
-    private getRootCssClass(selectedRoot, root) {
+    private getRootCssClass(selectedRoot: ITriflesRoot, root: ITriflesRoot) {
         let classes = "file-selector__item file-selector__root";
 
         if (root.type) {
             classes += (" file-selector__root__is-" + root.type);
         }
 
-        if (selectedRoot.id == root.id) {
+        if (selectedRoot.id === root.id) {
             classes += " file-selector__root__is-selected";
         }
 
         return classes;
     }
-    
-    private getFileCssClass(file) {
+
+    private getFileCssClass(file: ITriflesFile) {
         let classes = "file-selector__item file-selector__file";
 
         if (file.type) {
@@ -132,7 +146,7 @@ export default class FileSelector extends Component<any, any> {
         return classes;
     }
 
-    private selectRoot(root: any) {
+    private selectRoot(root: ITriflesRoot) {
         this.setState({
             selectedRoot: root,
             displayFilePath: root.displayPath
@@ -146,10 +160,10 @@ export default class FileSelector extends Component<any, any> {
         }
     }
 
-    private selectFile(file: any) {
-        if (!file.isFile) {
+    private selectFile(file: ITriflesFile) {
+        if (file.type === "folder") {
             this.setState({displayFilePath: file.displayPath});
-            this.fetchFiles(file)
+            this.fetchFiles(file);
         }
 
         if (this.options.onSelectFile) {
@@ -159,7 +173,7 @@ export default class FileSelector extends Component<any, any> {
         }
     }
 
-    private fetchFiles(file) {
+    private fetchFiles(file: ITriflesFile) {
         fetch(this.options.listFilesUrl + file.id).then((response) => {
             response.json().then((data) => {
                 this.setState({files: data.files});
@@ -167,7 +181,7 @@ export default class FileSelector extends Component<any, any> {
         });
     }
 
-    private renderFullPath(displayFilePath) {
+    private renderFullPath(displayFilePath: string) {
         return (
             <div>
                 {displayFilePath}

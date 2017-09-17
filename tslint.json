@@ -1,7 +1,4 @@
 {
-  "rulesDirectory": [
-    "node_modules/codelyzer"
-  ],
   "extends": ["tslint:latest", "tslint-react"],
   "rules": {
       "trailing-comma": false,
@@ -11,6 +8,8 @@
       "no-empty": false,
       "max-line-length": 140,
       "prefer-conditional-expression": false,
-      "prefer-object-spread": false
+      "prefer-object-spread": false,
+      "jsx-no-lambda": false,
+      "trailing-comma": [true, {"multiline": "never", "singleline": "never"}]
   }
 }

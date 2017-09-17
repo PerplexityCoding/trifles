@@ -7,7 +7,7 @@ import less from 'rollup-plugin-less';
 export default {
     input: "src/index.tsx",
     output: {
-        name: "FileSelector",
+        name: "Trifles",
         file: "dist/bundle.js",
         format: "iife"
     },

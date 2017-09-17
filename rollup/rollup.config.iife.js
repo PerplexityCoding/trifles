@@ -9,7 +9,7 @@ import strip from 'rollup-plugin-strip';
 export default {
     input: "src/index.tsx",
     output: {
-        name: "FileSelector",
+        name: "Trifles",
         file: "dist/bundle.min.js",
         format: "iife"
     },

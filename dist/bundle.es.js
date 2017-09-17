@@ -1,59 +1,102 @@
 import { Component, h, render } from 'preact';
 
+const __assign = Object.assign || function (target) {
+    for (var source, i = 1; i < arguments.length; i++) {
+        source = arguments[i];
+        for (var prop in source) {
+            if (Object.prototype.hasOwnProperty.call(source, prop)) {
+                target[prop] = source[prop];
+            }
+        }
+    }
+    return target;
+};
+
 function __extends(d, b) {
     for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
     function __() { this.constructor = d; }
     d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
 }
 
-var FileSelector = /** @class */ (function (_super) {
-    __extends(FileSelector, _super);
-    function FileSelector() {
+var Trifles = /** @class */ (function (_super) {
+    __extends(Trifles, _super);
+    function Trifles(_a) {
+        var options = _a.options;
         var _this = _super.call(this) || this;
-        _this.options = FileSelector.options;
+        _this.options = __assign({ configUrl: "http://localhost:3000/config", listFilesUrl: "http://localhost:3000/list_files?id=" }, options);
         _this.load();
         return _this;
     }
-    FileSelector.init = function (options) {
-        if (options === void 0) { options = {}; }
-        FileSelector.options = {
-            configUrl: options.configUrl || "http://localhost:3000/config",
-            listFilesUrl: options.listFilesUrl || "http://localhost:3000/list_files?id=",
-            onSelectRoot: options.onSelectRoot,
-            onSelectFile: options.onSelectFile,
-            apiKey: 'xxx123xxx'
-        };
-        render((h(FileSelector, null)), options.element || document.body);
+    Trifles.create = function (element, wOptions) {
+        if (wOptions === void 0) { wOptions = {}; }
+        render((h(Trifles, { options: wOptions })), element || document.body);
     };
-    FileSelector.prototype.load = function () {
+    Trifles.prototype.render = function (_a, _b) {
+        var roots = _b.roots, files = _b.files, selectedRoot = _b.selectedRoot, displayFilePath = _b.displayFilePath;
+        return (h("div", { class: "file-selector" },
+            h("div", { class: "file-selector__header" }, this.renderFullPath(displayFilePath)),
+            h("div", { class: "file-selector__content" },
+                h("ul", { class: "file-selector__left-column" }, this.renderRoots(roots, selectedRoot)),
+                h("ul", { class: "file-selector__right-column" }, this.renderFiles(files)))));
+    };
+    Trifles.prototype.renderRoots = function (roots, selectedRoot) {
+        var _this = this;
+        return roots && roots.map(function (root) {
+            return _this.renderRoot(root, selectedRoot);
+        });
+    };
+    Trifles.prototype.renderRoot = function (root, selectedRoot) {
+        var _this = this;
+        return (h("li", { onClick: function () { _this.selectRoot(root); }, className: this.getRootCssClass(selectedRoot, root) },
+            h("span", { class: "file-selector__root__label" }, root.label)));
+    };
+    Trifles.prototype.renderFiles = function (files) {
+        var _this = this;
+        return files && files.map(function (file, index) {
+            return _this.renderFile(file);
+        });
+    };
+    Trifles.prototype.renderFile = function (file) {
+        var _this = this;
+        return (h("li", { onClick: function () { _this.selectFile(file); }, className: this.getFileCssClass(file) },
+            h("span", { class: "file-selector__file__label" }, file.label)));
+    };
+    Trifles.prototype.load = function () {
         var _this = this;
         fetch(this.options.configUrl).then(function (response) {
             response.json().then(function (config) {
-                _this.setState({ roots: config.roots });
-                _this.setState({ files: config.files });
-                _this.setState({ displayFilePath: config.selectedRoot.displayPath });
+                var selectedRoot = config.selectedRoot;
+                _this.setState({
+                    roots: config.roots,
+                    files: config.files,
+                    selectedRoot: selectedRoot,
+                    displayFilePath: selectedRoot.displayPath
+                });
             });
         });
     };
-    FileSelector.prototype.render = function (_a, _b) {
-        var _this = this;
-        var roots = _b.roots, files = _b.files, displayFilePath = _b.displayFilePath;
-        return (h("div", { class: "file-selector" },
-            h("div", { class: "file-selector_header" }, this.renderFullPath(displayFilePath)),
-            h("div", { class: "file-selector__content" },
-                h("ul", { class: "file-selector__left-column" }, roots && roots.map(function (root, index) {
-                    return h("li", { onClick: function () {
-                            _this.selectRoot(root);
-                        } }, root.label);
-                })),
-                h("ul", { class: "file-selector__right-column" }, files && files.map(function (file, index) {
-                    return (h("li", { onClick: function () {
-                            _this.selectFile(file);
-                        }, className: file.isFile ? "file-selector__is-file" : "file-selector__is-directory" }, file.label));
-                })))));
+    Trifles.prototype.getRootCssClass = function (selectedRoot, root) {
+        var classes = "file-selector__item file-selector__root";
+        if (root.type) {
+            classes += (" file-selector__root__is-" + root.type);
+        }
+        if (selectedRoot.id === root.id) {
+            classes += " file-selector__root__is-selected";
+        }
+        return classes;
     };
-    FileSelector.prototype.selectRoot = function (root) {
-        this.setState({ displayFilePath: root.displayPath });
+    Trifles.prototype.getFileCssClass = function (file) {
+        var classes = "file-selector__item file-selector__file";
+        if (file.type) {
+            classes += (" file-selector__file__is-" + file.type);
+        }
+        return classes;
+    };
+    Trifles.prototype.selectRoot = function (root) {
+        this.setState({
+            selectedRoot: root,
+            displayFilePath: root.displayPath
+        });
         this.fetchFiles(root);
         if (this.options.onSelectRoot) {
             this.options.onSelectRoot({
@@ -61,8 +104,8 @@ var FileSelector = /** @class */ (function (_super) {
             });
         }
     };
-    FileSelector.prototype.selectFile = function (file) {
-        if (!file.isFile) {
+    Trifles.prototype.selectFile = function (file) {
+        if (file.type === "folder") {
             this.setState({ displayFilePath: file.displayPath });
             this.fetchFiles(file);
         }
@@ -72,7 +115,7 @@ var FileSelector = /** @class */ (function (_super) {
             });
         }
     };
-    FileSelector.prototype.fetchFiles = function (file) {
+    Trifles.prototype.fetchFiles = function (file) {
         var _this = this;
         fetch(this.options.listFilesUrl + file.id).then(function (response) {
             response.json().then(function (data) {
@@ -80,10 +123,10 @@ var FileSelector = /** @class */ (function (_super) {
             });
         });
     };
-    FileSelector.prototype.renderFullPath = function (displayFilePath) {
+    Trifles.prototype.renderFullPath = function (displayFilePath) {
         return (h("div", null, displayFilePath));
     };
-    return FileSelector;
+    return Trifles;
 }(Component));
 
-export default FileSelector;
+export default Trifles;

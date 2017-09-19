@@ -7,10 +7,10 @@ import less from 'rollup-plugin-less';
 import strip from 'rollup-plugin-strip';
 
 export default {
-    input: "src/index.tsx",
+    input: "src/trifles.tsx",
     output: {
         name: "Trifles",
-        file: "dist/bundle.min.js",
+        file: "dist/trifles.min.js",
         format: "iife"
     },
     plugins: [
@@ -26,8 +26,8 @@ export default {
             functions: [ 'console.log', 'assert.*', 'debug', 'alert' ],
             sourceMap: true,
             include: ['**/*.js', '**/*.ts', , '**/*.tsx']
-        }),
-        uglify()
+        })/*,
+        uglify()*/
     ]
 
 };

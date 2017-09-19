@@ -5,9 +5,9 @@ import typescript from "typescript";
 import less from 'rollup-plugin-less';
 
 export default {
-    input: "src/index.tsx",
+    input: "src/trifles.tsx",
     output: {
-        file: "dist/bundle.es.js",
+        file: "dist/trifles.es.js",
         format: "es"
     },
     plugins: [

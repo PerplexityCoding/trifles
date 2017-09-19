@@ -1,26 +1,26 @@
-.file-selector {
+.trifles {
   display: flex;
   flex-direction: column;
   user-select: none;
 }
-.file-selector__right-column {
+.trifles__right-column {
   flex: 2;
   padding: 0;
   margin: 0;
 }
-.file-selector__left-column {
+.trifles__left-column {
   flex: 1;
   padding: 0;
   margin: 0;
 }
-.file-selector__header {
+.trifles__header {
   user-select: all;
 }
-.file-selector__content {
+.trifles__content {
   display: flex;
   flex: 1;
 }
-.file-selector__item {
+.trifles__item {
   display: block;
   cursor: pointer;
 }

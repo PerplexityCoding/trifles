@@ -984,11 +984,11 @@ var Trifles = /** @class */ (function (_super) {
     };
     Trifles.prototype.render = function (_a, _b) {
         var roots = _b.roots, files = _b.files, selectedRoot = _b.selectedRoot, displayFilePath = _b.displayFilePath;
-        return (h("div", { class: "file-selector" },
-            h("div", { class: "file-selector__header" }, this.renderFullPath(displayFilePath)),
-            h("div", { class: "file-selector__content" },
-                h("ul", { class: "file-selector__left-column" }, this.renderRoots(roots, selectedRoot)),
-                h("ul", { class: "file-selector__right-column" }, this.renderFiles(files)))));
+        return (h("div", { class: "trifles" },
+            h("div", { class: "trifles__header" }, this.renderFullPath(displayFilePath)),
+            h("div", { class: "trifles__content" },
+                h("ul", { class: "trifles__left-column" }, this.renderRoots(roots, selectedRoot)),
+                h("ul", { class: "trifles__right-column" }, this.renderFiles(files)))));
     };
     Trifles.prototype.renderRoots = function (roots, selectedRoot) {
         var _this = this;
@@ -999,7 +999,7 @@ var Trifles = /** @class */ (function (_super) {
     Trifles.prototype.renderRoot = function (root, selectedRoot) {
         var _this = this;
         return (h("li", { onClick: function () { _this.selectRoot(root); }, className: this.getRootCssClass(selectedRoot, root) },
-            h("span", { class: "file-selector__root__label" }, root.label)));
+            h("span", { class: "trifles__root__label" }, root.label)));
     };
     Trifles.prototype.renderFiles = function (files) {
         var _this = this;
@@ -1010,7 +1010,7 @@ var Trifles = /** @class */ (function (_super) {
     Trifles.prototype.renderFile = function (file) {
         var _this = this;
         return (h("li", { onClick: function () { _this.selectFile(file); }, className: this.getFileCssClass(file) },
-            h("span", { class: "file-selector__file__label" }, file.label)));
+            h("span", { class: "trifles__file__label" }, file.label)));
     };
     Trifles.prototype.load = function () {
         var _this = this;
@@ -1027,19 +1027,19 @@ var Trifles = /** @class */ (function (_super) {
         });
     };
     Trifles.prototype.getRootCssClass = function (selectedRoot, root) {
-        var classes = "file-selector__item file-selector__root";
+        var classes = "trifles__item trifles__root";
         if (root.type) {
-            classes += (" file-selector__root__is-" + root.type);
+            classes += (" trifles__root__is-" + root.type);
         }
         if (selectedRoot.id === root.id) {
-            classes += " file-selector__root__is-selected";
+            classes += " trifles__root__is-selected";
         }
         return classes;
     };
     Trifles.prototype.getFileCssClass = function (file) {
-        var classes = "file-selector__item file-selector__file";
+        var classes = "trifles__item trifles__file";
         if (file.type) {
-            classes += (" file-selector__file__is-" + file.type);
+            classes += (" trifles__file__is-" + file.type);
         }
         return classes;
     };

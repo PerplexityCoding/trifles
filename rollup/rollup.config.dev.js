@@ -7,10 +7,10 @@ import livereload from 'rollup-plugin-livereload'
 import less from 'rollup-plugin-less';
 
 export default {
-    input: "src/index.tsx",
+    input: "src/trifles.tsx",
     output: {
         name: "Trifles",
-        file: "dist/bundle.js",
+        file: "dist/trifles.js",
         format: "iife"
     },
     watch: {

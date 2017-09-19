@@ -82,6 +82,7 @@ export default class Trifles extends Component<any, any> {
                 onClick={() => {this.selectRoot(root); }}
                 className={this.getRootCssClass(selectedRoot, root)}
             >
+                <i class="trifles__item__icon" aria-hidden="true" />
                 <span class="trifles__root__label">
                     {root.label}
                 </span>
@@ -101,6 +102,7 @@ export default class Trifles extends Component<any, any> {
                 onClick={() => {this.selectFile(file); }}
                 className={this.getFileCssClass(file)}
             >
+                <i class="trifles__item__icon" aria-hidden="true" />
                 <span class="trifles__file__label">
                     {file.label}
                 </span>

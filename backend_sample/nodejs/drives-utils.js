@@ -1,12 +1,7 @@
 const fs = require('fs');
 const path = require('path');
-const express = require('express');
-const app = express();
 const spawn = require('child_process').spawn;
-const cors = require('cors');
 const uuid = require('node-uuid');
-
-app.use(cors());
 
 const files = {};
 const revertFiles = {};
@@ -56,7 +51,7 @@ function getFile(id) {
     return revertFiles[id];
 }
 
-function getFiles(fileId) {
+function _getFiles(fileId) {
     const dirPath = getFile(fileId);
     const filesPath = fs.readdirSync(dirPath);
 
@@ -101,7 +96,14 @@ function getFiles(fileId) {
     return result;
 }
 
-app.get('/config', async function (req, res) {
+function getFiles(fileId) {
+    return {
+        files: _getFiles(fileId)
+    };
+}
+
+async function getConfig() {
+
     const win_drives = await get_win_drives();
 
     const roots = win_drives.map((drive) => {
@@ -123,19 +125,14 @@ app.get('/config', async function (req, res) {
         id: addFile(homePath)
     });
 
-    res.json({
+    return {
         roots: roots,
         selectedRoot: roots[0],
-        files: getFiles(roots[0].id)
-    });
-});
+        files: _getFiles(roots[0].id)
+    };
+}
 
-app.get('/list_files', async function (req, res) {
-    res.json({
-        files: getFiles(req.query.id)
-    });
-});
-
-app.listen(3000, function () {
-    console.log('Example app listening on port 3000!');
-});
+module.exports = {
+    getFiles: getFiles,
+    getConfig: getConfig
+};

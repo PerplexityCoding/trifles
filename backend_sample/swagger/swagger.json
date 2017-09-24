@@ -1,0 +1,113 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "description": "Trifles Api",
+    "version": "1.0.0",
+    "title": "Trifles Api"
+  },
+  "host": "trifles.swagger.io",
+  "basePath": "/v2",
+  "schemes": [
+    "http"
+  ],
+  "paths": {
+    "/config": {
+      "get": {
+        "summary": "Get the config from the server",
+        "description": "",
+        "operationId": "getConfig",
+        "produces": [
+          "application/json"
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "schema": {
+              "$ref": "#/definitions/Config"
+            }
+          },
+          "500": {
+            "description": "operation failed"
+          }
+        }
+      }
+    },
+    "/files": {
+      "get": {
+        "summary": "Get the files from the server from a file id",
+        "description": "",
+        "operationId": "getFiles",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "query",
+            "description": "The file of the file",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "files": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/definitions/Location"
+                  }
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "operation failed"
+          }
+        }
+      }
+    }
+  },
+  "definitions": {
+    "Config": {
+      "type": "object",
+      "properties": {
+        "roots": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/Location"
+          }
+        },
+        "selectedRoot": {
+          "$ref": "#/definitions/Location"
+        },
+        "files": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/Location"
+          }
+        }
+      }
+    },
+    "Location": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string"
+        },
+        "label": {
+          "type": "string"
+        },
+        "displayPath": {
+          "type": "string"
+        },
+        "type": {
+          "type": "string"
+        }
+      }
+    }
+  }
+}

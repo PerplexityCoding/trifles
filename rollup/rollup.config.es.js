@@ -1,21 +1,13 @@
-// rollup.config.js
-import rollupTypescript from "rollup-plugin-typescript";
-//import resolve from "rollup-plugin-node-resolve";
-import typescript from "typescript";
-import less from 'rollup-plugin-less';
+import resolve from "rollup-plugin-node-resolve";
 
 export default {
-    input: "src/trifles.tsx",
+    input: "src/trifles.js",
     output: {
-        file: "dist/trifles.es.js",
+        file: "dist/trifles.esm.js",
         format: "es"
     },
     plugins: [
-        rollupTypescript({
-            typescript: typescript
-        }),
-        less({
-            output: "dist/styles.css"
-        })
-    ]
+        resolve()
+    ],
+    external: [ "preact", "whatwg-fetch" ]
 };

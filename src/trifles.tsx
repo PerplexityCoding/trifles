@@ -1,5 +1,5 @@
-import "./styles.less";
 import {Component, h, render} from "preact";
+import "whatwg-fetch";
 
 interface ITriflesOptions {
     configUrl: string;
@@ -38,12 +38,12 @@ export default class Trifles extends Component<any, any> {
 
     private options: ITriflesOptions;
 
-    constructor({options: options}: {options: ITriflesOptions}) {
+    private constructor({options: options}: {options: ITriflesOptions}) {
         super();
 
         this.options = {
-            configUrl: "http://localhost:3000/config",
-            listFilesUrl: "http://localhost:3000/list_files?id=",
+            configUrl: "http://localhost:8080/config",
+            listFilesUrl: "http://localhost:8080/files?id=",
             ...options
         };
 
@@ -91,7 +91,7 @@ export default class Trifles extends Component<any, any> {
     }
 
     private renderFiles(files: [ITriflesFile]) {
-        return files && files.map((file, index) => {
+        return files && files.map((file) => {
             return this.renderFile(file);
         });
     }

@@ -2,34 +2,44 @@
   "name": "Trifles",
   "version": "0.0.1",
   "description": "",
-  "main": "dist/bundle.js",
-  "module": "dist/bundle.es.js",
+  "main": "dist/trifles.js",
+  "module": "dist/trifles.es.js",
   "scripts": {
     "killall": "taskkill /f /im node.exe",
     "start": "rollup -c rollup/rollup.config.dev.js -w",
-    "build": "npm run build:iife && npm run build:iife:debug && npm run build:es",
-    "build:iife": "rollup -c rollup/rollup.config.iife.js",
-    "build:iife:debug": "rollup -c rollup/rollup.config.iife-debug.js",
-    "build:es": "rollup -c rollup/rollup.config.es.js"
+    "build": "npm run clean:dist && npm run build:styles && npm run build:scripts",
+    "build:styles": "npm run build:less && npm run build:css:autoprefix && npm run build:css:min",
+    "build:less": "lessc src/styles.less dist/styles.css",
+    "build:css:autoprefix": "postcss dist/styles.css --use autoprefixer --no-map -r",
+    "build:css:min": "cleancss dist/styles.css -o dist/styles.min.css",
+    "build:scripts": "npm run build:typescript && npm run build:iife && npm run build:es",
+    "build:typescript": "tsc",
+    "build:iife": "npm run build:rollup:iife && npm run build:iife:min",
+    "build:es": "npm run build:rollup:es",
+    "build:rollup:iife": "rollup -c rollup/rollup.config.iife.js",
+    "build:rollup:es": "rollup -c rollup/rollup.config.es.js",
+    "build:iife:min": "uglifyjs -c -m -o dist/trifles.min.js -- dist/trifles.js",
+    "clean:dist": "rimraf dist"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "devDependencies": {
-    "if-env": "^1.0.0",
+    "autoprefixer": "^7.1.4",
+    "clean-css-cli": "^4.1.10",
+    "less": "^2.7.2",
+    "postcss-cli": "^4.1.1",
+    "rimraf": "^2.6.2",
     "rollup": "^0.49.3",
-    "rollup-plugin-less": "^0.1.3",
-    "rollup-plugin-livereload": "^0.6.0",
     "rollup-plugin-node-resolve": "^3.0.0",
-    "rollup-plugin-serve": "^0.4.2",
-    "rollup-plugin-strip": "^1.1.1",
-    "rollup-plugin-typescript": "^0.8.1",
-    "rollup-plugin-uglify": "^2.0.1",
+    "tslib": "^1.7.1",
     "tslint": "^5.7.0",
     "tslint-react": "^3.2.0",
-    "typescript": "^2.5.2"
+    "typescript": "^2.5.2",
+    "uglify-js": "^3.1.2"
   },
   "dependencies": {
-    "preact": "^8.2.5"
+    "preact": "^8.2.5",
+    "whatwg-fetch": "^2.0.3"
   }
 }

@@ -2,16 +2,28 @@
   "compileOnSave": true,
   "compilerOptions": {
     "baseUrl": "src",
+    "module": "es2015",
     "moduleResolution": "node",
     "target": "es5",
+    "lib": [
+      "dom",
+      "es5",
+      "scripthost"
+    ],
     "typeRoots": [
       "node_modules/@types"
     ],
     "jsx": "react",
-    "jsxFactory": "h"
+    "jsxFactory": "h",
+    "noEmitHelpers": true,
+    "importHelpers": true
   },
   "include": [
-    "src/*.ts",
-    "src/*.tsx"
+    "src/**/*.d.ts",
+    "src/**/*.ts",
+    "src/**/*.tsx"
+  ],
+  "exclude": [
+    "node_modules"
   ]
 }
